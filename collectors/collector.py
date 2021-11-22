@@ -16,14 +16,13 @@ def fetch_metrics() -> str:
     final_string = ""
     # CPU Metrics overall
     cpu_details = psutil.cpu_times()
-    print(cpu_details)
     cpu_details_string = ""
     for b in cpu_details:
         cpu_details_string = cpu_details_string + str(b) + ","
     cpu_percent_avg = [
         x / psutil.cpu_count() * 100 for x in psutil.getloadavg()][1]
     cpu_details_string = cpu_details_string + \
-        str(cpu_percent_avg) + "," + str(psutil.cpu_percent(interval=None))
+        str(cpu_percent_avg) + "," + str(psutil.cpu_percent(interval=None, percpu=False))
 
     # print("cpu details:" + cpu_details_string)
     cpu_times_per_cpu = psutil.cpu_times(percpu=True)
@@ -69,7 +68,7 @@ def fetch_metrics() -> str:
 
     # print(f"net IO counters: {net_io_counters_string}")
     # Timestamp
-    timestamp = int(time.time())
+    timestamp = int(str(datetime.now()))
 
     final_string = cpu_details_string + cpu_details_per_cpu_string + \
         virtual_memory_string + swap_memory_string + \
