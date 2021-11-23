@@ -1,6 +1,8 @@
 from datetime import datetime
+from genericpath import exists
+import socket
 import traceback
-from comms import comm_content
+from comms import comm_content, comm_reporting
 import configparser
 import time
 from collector import system_metrics, network_capture
@@ -25,7 +27,17 @@ def _raise_alert():
     matched_details = network_capture.main(
         int(config['Default']['capture_time']), config['Default']['content_file_path'])
     print(matched_details)
-
+    if not matched_details:
+        matched_details = {}
+        matched_details["matched"] = False
+        matched_details["title"] = "Possible Cryptomining activity suspected, but no hit found in content"
+    else:
+        matched_details["title"] = "Cryptomining activity detected"
+        matched_details["matched"] = True
+    matched_details["hostname"] = socket.gethostname()
+    matched_details["host_ip"] = socket.gethostbyname(matched_details["hostname"])
+    matched_details["datetime"] = str(datetime.utcnow())
+    comm_reporting.main(matched_details)
 
 def _record_test_metrics():
     """
@@ -58,6 +70,8 @@ def _schedule_content_pull(content_interval: int):
     """
     # Initially run once to get the content
     comm_content.main()
+    if not exists(config['Default']['content_file_path']):
+        raise Exception('Unable to start because the content file was not generated.')
     try:
         t = threading.Timer(
             content_interval, _schedule_content_pull, [content_interval])

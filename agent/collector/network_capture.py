@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Union
 import pyshark
 import psutil
 import csv
@@ -57,7 +58,7 @@ def match_network_call(packet):
         pass
 
 
-def main(capture_time: int, content_file_path: str):
+def main(capture_time: int, content_file_path: str) -> Union[dict, None]:
     """
     Method to start a network monitor which will capture the packets to find if a known communication between 
     host and a mining pool is active.

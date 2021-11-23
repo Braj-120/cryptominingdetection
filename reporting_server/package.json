@@ -1,0 +1,22 @@
+{
+    "scripts": {
+        "start": "node server.js"
+    },
+    "name": "reporting-server",
+    "author": {
+        "name": "Braj K",
+        "email": "Braj.120@github.com"
+    },
+    "description": "Reporting Server for Cryptomining detection",
+    "devDependencies": {
+        "eslint": "^8.3.0"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "bcrypt": "^5.0.1",
+        "ulid": "^2.3.0",
+        "jsonwebtoken":"^8.5.1",
+        "winston": "^3.3.3",
+        "better-sqlite3": "^7.4.5"
+    }
+}
