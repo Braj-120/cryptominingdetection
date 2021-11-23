@@ -52,6 +52,8 @@ Makefile
 *venv
 __pycache__
 node_modules
-.creds
-.token
+.*creds
+.*token
 content.csv
+package-lock.json
+*temp
