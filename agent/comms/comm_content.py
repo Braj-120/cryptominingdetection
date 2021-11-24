@@ -63,3 +63,4 @@ def main():
     except Exception as ex:
         print(str(datetime.now()) + ":")
         traceback.print_exc()
+        print('Failed to get the content. If content exists, older content will be used, else program will exit')

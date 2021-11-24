@@ -57,3 +57,5 @@ node_modules
 content.csv
 package-lock.json
 *temp
+*.db
+*.log

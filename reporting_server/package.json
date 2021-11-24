@@ -9,7 +9,8 @@
     },
     "description": "Reporting Server for Cryptomining detection",
     "devDependencies": {
-        "eslint": "^8.3.0"
+        "eslint": "^8.3.0",
+        "@angular/cli": "13.0.1"
     },
     "dependencies": {
         "express": "^4.17.1",
@@ -17,6 +18,7 @@
         "ulid": "^2.3.0",
         "jsonwebtoken":"^8.5.1",
         "winston": "^3.3.3",
-        "better-sqlite3": "^7.4.5"
+        "better-sqlite3": "^7.4.5",
+        "cookie-parser": "^1.4.6"
     }
 }

@@ -15,6 +15,13 @@ config.read('config.ini')
 metric_interval = int(config['Default']['metric_interval'])
 
 
+def _get_ip():
+    """
+    Tries to get the local ip address
+    """
+    from subprocess import check_output
+    return check_output(['hostname', '--all-ip-addresses']).decode("utf-8").strip()
+
 def _raise_alert():
     """
     Method to raise Alert. This method, tries to monitor network logs to identify if it is a known mining pool location.
@@ -35,7 +42,7 @@ def _raise_alert():
         matched_details["title"] = "Cryptomining activity detected"
         matched_details["matched"] = True
     matched_details["hostname"] = socket.gethostname()
-    matched_details["host_ip"] = socket.gethostbyname(matched_details["hostname"])
+    matched_details["host_ip"] = _get_ip()
     matched_details["datetime"] = str(datetime.utcnow())
     comm_reporting.main(matched_details)
 

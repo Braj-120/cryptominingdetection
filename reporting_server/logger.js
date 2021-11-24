@@ -1,7 +1,6 @@
 const winston = require('winston');
 const util = require('util');
 const config = require('./data/config');
-console.log(config.normal_log);
 
 const logger = winston.createLogger({
   level: config.log_level,
