@@ -3,6 +3,8 @@ import configparser
 import csv
 import time
 import gpu
+import traceback
+
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -15,17 +17,17 @@ def fetch_metrics() -> str:
 
     final_string = ""
     # CPU Metrics overall
-    cpu_details = psutil.cpu_times()
+    cpu_details = psutil.cpu_times_percent()
     cpu_details_string = ""
     for b in cpu_details:
         cpu_details_string = cpu_details_string + str(b) + ","
     cpu_percent_avg = [
         x / psutil.cpu_count() * 100 for x in psutil.getloadavg()][1]
     cpu_details_string = cpu_details_string + \
-        str(cpu_percent_avg) + "," + str(psutil.cpu_percent(interval=None, percpu=False))
+        str(cpu_percent_avg) + "," + str(psutil.cpu_percent(interval=None, percpu=False)) + ","
 
     # print("cpu details:" + cpu_details_string)
-    cpu_times_per_cpu = psutil.cpu_times(percpu=True)
+    cpu_times_per_cpu = psutil.cpu_times_percent(percpu=True)
     cpu_details_per_cpu_string = ""
     for i in range(psutil.cpu_count(logical=False)):
         cpu_details_per_cpu_string_x = ""
@@ -68,7 +70,7 @@ def fetch_metrics() -> str:
 
     # print(f"net IO counters: {net_io_counters_string}")
     # Timestamp
-    timestamp = int(str(datetime.now()))
+    timestamp = int(time.time())
 
     final_string = cpu_details_string + cpu_details_per_cpu_string + \
         virtual_memory_string + swap_memory_string + \
@@ -104,7 +106,7 @@ def generate_header() -> str:
 
     disk_header = "disk_total,disk_used,disk_free,disk_percent," + \
         "disk_read_count,disk_write_count,disk_read_bytes,disk_write_bytes,disk_read_time,disk_write_time," + \
-        "disk_read_merged_count,disk_write_merged_count,disk_busy_time"
+        "disk_read_merged_count,disk_write_merged_count,disk_busy_time,"
 
     net_header = "net_bytes_sent,net_bytes_recv,net_packets_sent,net_packets_recv,net_errin,net_errout,net_dropin,net_dropout,"
     header_string = header_string + mem_header + \
@@ -151,6 +153,7 @@ def main():
         loop(csv_file_path)
     except Exception as err:
         print(err)
+        traceback.print_exc()
 
 
 if __name__ == "__main__":

@@ -57,9 +57,9 @@ def _record_test_metrics():
     threshold = int(config['Default']['detection_counter_threshold'])
     # Do the prediction
     pred = prediction.predict(query)
-    print(f'Hack done here, actual pred is {pred}, hardcoded 1')
+    print(f'Actual pred is {pred}')
     # If prediction is true 5 times continiously, then raise the alert.
-    if(1):
+    if(pred[0]):
         gl_counter = gl_counter + 1
         print(f"{str(datetime.now())}:Possible crypto mining detection prediction, counter {gl_counter}, Threshold is {threshold}")
     else:

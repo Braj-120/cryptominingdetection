@@ -131,6 +131,16 @@ body {
     top: 25px;
     z-index: 10;
   }
+
+  .dashboard-header {
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    background-color: #0064a2 !important;
+  }
   
   @media screen and (max-width:760px) {
     #topnav { flex-wrap: wrap; }

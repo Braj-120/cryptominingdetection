@@ -15,17 +15,17 @@ def _fetch_metrics() -> str:
     """
     final_string = ""
     # CPU Metrics overall
-    cpu_details = psutil.cpu_times()
+    cpu_details = psutil.cpu_times_percent()
     cpu_details_string = ""
     for b in cpu_details:
         cpu_details_string = cpu_details_string + str(b) + ","
     cpu_percent_avg = [
         x / psutil.cpu_count() * 100 for x in psutil.getloadavg()][1]
     cpu_details_string = cpu_details_string + \
-        str(cpu_percent_avg) + "," + str(psutil.cpu_percent(interval=None, percpu=False))
+        str(cpu_percent_avg) + "," + str(psutil.cpu_percent(interval=None, percpu=False)) + ","
 
     # print("cpu details:" + cpu_details_string)
-    cpu_times_per_cpu = psutil.cpu_times(percpu=True)
+    cpu_times_per_cpu = psutil.cpu_times_percent(percpu=True)
     cpu_details_per_cpu_string = ""
     for i in range(psutil.cpu_count(logical=False)):
         cpu_details_per_cpu_string_x = ""
@@ -95,13 +95,13 @@ def _generate_header() -> str:
 
     header_string = header_string + cpu_per_core_header_string
 
-    mem_header = "mem_total,mem_available,mem_percent,mem_used,mem_free," + \
+    mem_header = "mem_total,mem_percent,mem_available,mem_used,mem_free," + \
         "mem_active,mem_inactive,mem_buffers,mem_cached,mem_shared,mem_slab,"
     swap_header = "swap_total,swap_used,swap_free,swap_percent,swap_sin,swap_sout,"
 
     disk_header = "disk_total,disk_used,disk_free,disk_percent," + \
         "disk_read_count,disk_write_count,disk_read_bytes,disk_write_bytes,disk_read_time,disk_write_time," + \
-        "disk_read_merged_count,disk_write_merged_count,disk_busy_time"
+        "disk_read_merged_count,disk_write_merged_count,disk_busy_time,"
 
     net_header = "net_bytes_sent,net_bytes_recv,net_packets_sent,net_packets_recv,net_errin,net_errout,net_dropin,net_dropout"
     header_string = header_string + mem_header + \

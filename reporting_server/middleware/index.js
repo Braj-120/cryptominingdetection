@@ -35,7 +35,7 @@ module.exports.validateToken = (req, res, next) => {
  module.exports.validateTokenUI = (req, res, next) => {
     try {
         if (!req.cookies) {
-            return res.status(401).redirect("?" + "unauthorized=true");
+            return res.status(401).redirect("/?" + "unauthorized=true");
         }
         const bearerHeader = req.cookies['authorization'];
         const host = req.hostname;
@@ -48,7 +48,7 @@ module.exports.validateToken = (req, res, next) => {
             }
         }
         // Forbidden
-        return res.status(401).redirect("?" + "unauthorized=true");
+        return res.status(401).redirect("/?" + "unauthorized=true");
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
